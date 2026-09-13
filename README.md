@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My App
+
+A modern personal finance and expense tracking application built with Next.js, Prisma, PostgreSQL, and Clerk. The platform helps users manage accounts, track spending, monitor budgets, and understand their financial activity through a clean dashboard and transaction workflow.
+
+## Overview
+
+This project is designed for users who want a simple but powerful way to:
+
+- track income and expenses across multiple accounts
+- monitor budget progress and spending trends
+- create and manage transactions quickly
+- review account-level financial summaries
+- sign in securely with Clerk authentication
+- receive email notifications and AI-assisted transaction support
+
+## Features
+
+- Secure authentication with Clerk
+- Multi-account dashboard with financial summaries
+- Budget tracking and progress visualization
+- Transaction creation and management
+- Account overview with recent activity
+- AI-enhanced expense insights using Gemini/Groq-style integration patterns
+- Email notifications with Resend
+- Background automation via Inngest
+- Anti-abuse and request protection with Arcjet
+- PostgreSQL data layer powered by Prisma
+- Responsive UI built with Next.js App Router and Tailwind CSS
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- Tailwind CSS
+- Prisma ORM
+- PostgreSQL
+- Clerk Auth
+- Resend email
+- Inngest workflows
+- Arcjet security
+- Gemini API integration
+- shadcn/ui component patterns
+
+## Project Structure
+
+```bash
+.
+├── app/
+│   ├── (auth)/
+│   ├── (main)/
+│   ├── api/
+│   ├── globals.css
+│   └── layout.js
+├── actions/
+├── components/
+├── lib/
+├── prisma/
+├── public/
+├── data/
+├── emails/
+├── hooks/
+├── middleware.js
+├── package.json
+├── prisma.config.ts
+├── next.config.js
+├── README.md
+└── .env.example
+```
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment variables
+
+Create a `.env.local` file in the project root and add the required values:
+
+```bash
+DATABASE_URL="your_postgres_connection_string"
+DIRECT_URL="your_direct_postgres_connection_string"
+
+CLERK_SECRET_KEY="your_clerk_secret_key"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your_clerk_publishable_key"
+
+RESEND_API_KEY="your_resend_api_key"
+GEMINI_API_KEY="your_gemini_api_key"
+
+ARCJET_KEY="your_arcjet_key"
+```
+
+If your project uses additional environment variables for Inngest or deployment, add them here as needed.
+
+### 3. Run Prisma migrations
+
+```bash
+npx prisma migrate dev
+```
+
+### 4. Start the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+npm run email
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+This app is ready to be deployed on platforms such as Vercel. For production deployment, set all environment variables in your hosting provider and ensure your Prisma/PostgreSQL database is available.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is currently unlicensed and intended for personal or internal use unless otherwise specified.
 
-## Deploy on Vercel
+## Repository Description
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Personal finance tracker built with Next.js, Prisma, Clerk, and PostgreSQL for managing budgets, accounts, and transaction insights.
