@@ -25,13 +25,14 @@ const ReceiptScanner = ({ onScanComplete }) => {
         await scanReceiptFn(file);
     };
     useEffect(() => {
-        if(scannedData && !scanReceiptLoading ){
+        if (scannedData && !scanReceiptLoading && onScanComplete) {
             onScanComplete(scannedData);
             toast.success("Receipt scanned successfully");
         }
-    },[
+    }, [
         scannedData,
-        scanReceiptLoading,  
+        scanReceiptLoading,
+        onScanComplete,
     ]);
 
     useEffect(() => {

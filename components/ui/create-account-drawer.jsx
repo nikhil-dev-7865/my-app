@@ -1,24 +1,23 @@
 "use client";
-import React from 'react';
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { createAccount } from "@/actions/dashboard";
 import { accountSchema } from "@/app/lib/schema";
-import { 
-  Drawer, 
-  DrawerContent, 
-  DrawerHeader, 
-  DrawerTitle, 
-  DrawerDescription,
-  DrawerTrigger, 
-  DrawerClose 
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import useFetch from "@/hooks/use-fetch"; // Ensure correct casing
-import { createAccount } from "@/actions/dashboard";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect } from 'react';
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import { useEffect } from "react";
 
 
 
@@ -29,7 +28,7 @@ function CreateAccountDrawer({ children }) {
   const [open, setOpen] = React.useState(false);
 
   const {
-    register, handleSubmit, formState: { errors }, setValue, watch, reset, control
+    register, handleSubmit, formState: { errors }, setValue, reset, control
   } = useForm({
     resolver: zodResolver(accountSchema),
     defaultValues: {
@@ -40,24 +39,15 @@ function CreateAccountDrawer({ children }) {
     }
   });//
 
+  const isDefault = useWatch({ control, name: "isDefault" });
+
   // Data for the created account
   const [
-    data, 
+    ,
     isLoading, 
     error, 
     fetchCreateAccount
   ] = useFetch(createAccount);
-
-  // Handle successful account creation, e.g., show a success message or update the UI
-  useEffect(() => {
-    if(data && !isLoading) {
-      
-      toast.success("Account created successfully");
-      reset();
-      setOpen(false);
-    
-    }
-  },  [isLoading, data]);
 
   // Handle error, e.g., show an error message
   useEffect(() => {
@@ -70,10 +60,13 @@ function CreateAccountDrawer({ children }) {
 
   // Here you can handle the form submission, e.g., send data to the server
   const onSubmit = async (data) => {
-    await fetchCreateAccount(data);
-    // After successful submission, you might want to reset the form and close the drawer
-    reset();
-    setOpen(false);
+    const response = await fetchCreateAccount(data);
+
+    if (response?.success) {
+      toast.success("Account created successfully");
+      reset();
+      setOpen(false);
+    }
   };
 
 
@@ -167,7 +160,7 @@ function CreateAccountDrawer({ children }) {
                 </label>
                 <Switch id="isDefault"
                   onCheckedChange={(checked) => setValue("isDefault", checked)}
-                  checked={watch("isDefault")}
+                  checked={isDefault}
                   {...register("isDefault")} />
               </div>
 

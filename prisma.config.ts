@@ -2,8 +2,8 @@ import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 
 export default defineConfig({
-  engine: "classic",
+  schema: "prisma/schema.prisma",
   datasource: {
-    url: env("DIRECT_URL") ?? env("DATABASE_URL"),
+    url: env("DATABASE_URL"),
   },
 });

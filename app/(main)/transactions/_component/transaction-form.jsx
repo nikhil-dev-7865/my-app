@@ -21,7 +21,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 import { createTransaction } from '../../../../actions/transaction';
 import useFetch from '../../../../hooks/use-fetch';
@@ -42,8 +42,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    getValues,
+    control,
     reset,
   } = useForm({
     resolver: zodResolver(transactionSchema),
@@ -79,12 +78,12 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     transactionFn,
   ] = useFetch(editMode ? "updateTransaction" :createTransaction);
 
-  const type = watch("type");
-    const isRecurring = watch("isRecurring");
-    const date = watch("date");
-    const accountId = watch("accountId");
-    const category = watch("category");
-    const recurringInterval = watch("recurringInterval");
+  const type = useWatch({ control, name: 'type' });
+    const isRecurring = useWatch({ control, name: 'isRecurring' });
+    const date = useWatch({ control, name: 'date' });
+    const accountId = useWatch({ control, name: 'accountId' });
+    const category = useWatch({ control, name: 'category' });
+    const recurringInterval = useWatch({ control, name: 'recurringInterval' });
 
     const onSubmit = async(data) => {
         const formData = {
@@ -120,11 +119,6 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         }
     }, [transactionError]);
 
-     
-
-
-
-    const filteredCategories = categories.filter((category) => category.type === type);
 
     const handleScanComplete = (scannedData) => {
         console.log(scannedData);
