@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model User {
+  id           String        @id @default(uuid())
+  clerkUserId  String        @unique
+  email        String        @unique
+  name         String?
+  imageUrl     String?
+  transactions Transaction[]
+  accounts     Account[]
+  budgets      Budget[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("users")
+}
+
+model Transaction {
+  id          String      @id @default(uuid())
+  type        TransactionType
+  amount      Float
+  description String?
+  date        DateTime    
+  category    String?
+  receiptUrl String?
+  isRecurring Boolean @default(false)
+  recurringInterval RecurringInterval? // e.g., "weekly", "monthly", "yearly"
+  nextRecurrenceDate DateTime? // Date for the next occurrence of the transaction
+  lastProcessed DateTime? // Date when the transaction was last processed for recurrence
+
+  status      TransactionStatus @default(COMPLETED)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId   String
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([accountId])
+  @@index([userId])
+  @@map("transactions")
+}
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+enum RecurringInterval {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+model Account {
+  id      String      @id @default(uuid())
+  name    String
+  type    AccountType
+  balance Float       @default(0)
+  isDefault Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, name]) // ADD THIS LINE: Prevents duplicate account names per user
+  @@index([userId])
+  @@map("accounts")
+  transactions Transaction[]
+}
+
+enum AccountType {
+  CURRENT
+  SAVINGS
+  
+}
+
+model Budget {
+  id          String      @id @default(uuid())
+  amount      Float
+  lastAlertedAt DateTime? // Date when the user was last alerted about nearing the budget limit
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@map("budgets") 
+}

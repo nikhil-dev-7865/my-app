@@ -1,0 +1,26 @@
+{
+    "prisma.pinToPrisma6": false,
+    "typescript.suggest.autoImports": true,
+    "javascript.suggest.autoImports": true,
+    "typescript.importModuleSpecifier": "relative",
+    "javascript.importModuleSpecifier": "relative",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "chat.agent.maxRequests": 500000,
+    "github.copilot.chat.agent.autoFix": true,
+    "chat.editRequests": "inline",
+    "chat.mcp.access": "registry",
+    "chat.disableAIFeatures": false,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "extensions.autoUpdate": true,
+    "update.mode": "default",
+    "livePreview.defaultPreviewBrowser": "external",
+    "liveServer.settings.port": 3000,
+    "liveServer.settings.root": "/",
+    "liveServer.settings.useWebExt": false,
+    "[browserLinkPreview]": {
+        "editor.defaultFormatter": "ms-vscode.live-server"
+    }
+}
