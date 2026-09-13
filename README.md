@@ -120,8 +120,33 @@ npm run email
 
 ## Deployment
 
-This app is ready to be deployed on platforms such as Vercel. For production deployment, set all environment variables in your hosting provider and ensure your Prisma/PostgreSQL database is available.
+This app is ready to be deployed on platforms such as Northflank. For production deployment, set all environment variables in your hosting provider and ensure your Prisma/PostgreSQL database is available.
 
+### Northflank checklist
+
+- Use a Web Service for the Next.js app
+- Build command: `npm install && npm run build`
+- Start command: `npx next start -H 0.0.0.0 -p 3000`
+- Set the app port to `3000`
+- Add all required secrets from `.env.example` in Northflank
+- Connect a PostgreSQL database and set `DATABASE_URL` and `DIRECT_URL`
+- Set Clerk public and secret keys before deployment
+
+### Required environment variables
+
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your_clerk_publishable_key"
+CLERK_SECRET_KEY="your_clerk_secret_key"
+NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
+
+DATABASE_URL="your_postgres_connection_string"
+DIRECT_URL="your_direct_postgres_connection_string"
+
+ARCJET_KEY="your_arcjet_key"
+RESEND_API_KEY="your_resend_api_key"
+GEMINI_API_KEY="your_gemini_api_key"
+```
 ## License
 
 This project is currently unlicensed and intended for personal or internal use unless otherwise specified.

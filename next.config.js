@@ -1,4 +1,5 @@
 const nextConfig = {
+  output: "standalone",
   images: {
     localPatterns: [
       {
@@ -9,15 +10,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "randomuser.me",
-      }
+      },
     ],
   },
-  experimental:{
+  experimental: {
     serverActions: {
-      bodySizeLimits:"5mb",
-    }
-  }
-}
-
+      bodySizeLimits: "5mb",
+    },
+  },
+};
 
 module.exports = nextConfig;
